@@ -1,0 +1,49 @@
+drop database emenu
+CREATE DATABASE IF NOT EXISTS emenu
+
+USE emenu;
+
+CREATE TABLE Category (
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR(20)
+);
+
+CREATE TABLE Origin (
+    OriginID INT PRIMARY KEY,
+    OriginName VARCHAR(20)
+);
+
+CREATE TABLE Ingredient (
+    IngredientID INT PRIMARY KEY,
+    IngredientName VARCHAR(20),
+    CountingUnit VARCHAR(20),
+    Quantity DECIMAL(10,2),
+    ImportDate DATE,
+    ExpiredDate DATE
+);
+
+CREATE TABLE Dish (
+    DishID INT PRIMARY KEY,
+    DishName VARCHAR(20),
+    Price DECIMAL(10,2),
+    Availability BOOLEAN,
+    TimeAvailability TIME,
+    CategoryID INT,
+    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+);
+
+CREATE TABLE DishOrigin (
+    DishID INT,
+    OriginID INT,
+    PRIMARY KEY (DishID, OriginID),
+    FOREIGN KEY (DishID) REFERENCES Dish(DishID),
+    FOREIGN KEY (OriginID) REFERENCES Origin(OriginID)
+);
+
+CREATE TABLE DishIngredient (
+    DishID INT,
+    IngredientID INT,
+    PRIMARY KEY (DishID, IngredientID),
+    FOREIGN KEY (DishID) REFERENCES Dish(DishID),
+    FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
+);
